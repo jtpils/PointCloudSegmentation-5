@@ -131,3 +131,7 @@ You can find the Tensorboard records under `tensorboard/`.
     <img src="image/acc3.png" width="430"/>
 </p>
 
+&nbsp;
+## Performance analysis
+Experimental results show that learning unsupervised point cloud segmentation does help to extract features suitable for classification. However, simply adopting the training scheme from DGCNN for segmentation task is not suitable for transfer learning. We believe better results will get if using better training scheme.
+
