@@ -124,7 +124,7 @@ You can find the Tensorboard records under `tensorboard/`.
 | Segmentation | Unsupervised | DGCNN_Seg | 40 | 32 | 250 | ShapeNetPart | 84.0% | 
 | Segmentation | Supervised | DGCNN_Seg | 40 | 32 | 250 | ShapeNetPart | 85.0% | 
 | Classification | Supervised | DGCNN_Cls | 40 | 32 | 250 | ShapeNetPart Part | **99.0%** | 4
-| Reconstruction | Unsupervised | DGCNN_Cls | 20 | 16 | 250 | ShapeNetPart Part | - | 
+| Reconstruction | Unsupervised | DGCNN_Cls | 20 | 16 | 250 | ShapeNetPart Part | 87.5% | 
 
 &nbsp;
 <p float="left">
