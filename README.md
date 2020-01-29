@@ -1,6 +1,6 @@
-# Unsupervised Point Cloud Segmentation for Classific Feature Learning
+# Point Cloud Segmentation for Classific Feature Learning
 ## Introduction
-This work aims to show whether learning a unsupervised point cloud segmentation task is able to extract features performing well in classification. We do all experiments under the framework of DGCNN.
+This work aims to show whether learning a point cloud segmentation task is able to extract features performing well in classification. We do all experiments under the framework of DGCNN.
 
 Details for DGCNN see **Dynamic Graph CNN for Learning on Point Clouds** (https://arxiv.xilesou.top/pdf/1801.07829). We provide a PyTorch reimplementation for DGCNN in this [repo](https://github.com/AnTao97/dgcnn).
 
@@ -19,13 +19,13 @@ Some visualized point clouds in our ShapeNetPart Part dataset:
 </p>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;chair&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;skateboard&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&ensp;airplane
 
-Experimental results show that learning unsupervised point cloud segmentation does help to extract features suitable for classification.
+Experimental results show that learning point cloud segmentation does help to extract features suitable for classification.
 
 **The key contributions of this work are as follows:**
 
-- Since the network provided by DGCNN for segmentation is supervised, we provide an unsupervised segmentation network for DGCNN.
-- When unsupervised segmentation is trained and tested on intact point clouds, the trained model can help to extract better features.
-- When unsupervised segmentation is trained on intact point clouds and tested on base point clouds, the trained model also can help to extract better features. 
+- Since the network provided by DGCNN for segmentation is supervised, we provide an revised DGCNN segmentation network with no category label.
+- When segmentation is trained and tested on intact point clouds, the trained model can help to extract better features.
+- When segmentation is trained on intact point clouds and tested on base point clouds, the trained model also can help to extract better features. 
 
 If you find this work useful, please cite:
 ```
@@ -61,13 +61,13 @@ To evaluate the quality of extracted features, we use ShapeNetPart dataset to bo
 
 For transfer performance, we train the linear SVM classifier on ModelNet 40 dataset using the features (latent representations) obtained from the same network trained from the ShapeNetPart dataset.
 
-In this work we compare the performance for adopted training task among unsupervised segmentation, supervised segmentation, supervised classification and unsupervised reconstruction. For unsupervised segmentation, we discard the adding of categorical vector (mlp {64}) and directly repeat the 1024 dim feature into n x 1024. We do unsupervised reconstruction following the framework in this [repo](https://github.com/AnTao97/UnsupervisedPointCloudReconstruction) and use source points from sphere surface for decoder. We also change feature dimension into 1024. Except unsupervised reconstruction, we do all experiments under the framework of DGCNN.
+In this work we compare the performance for adopted training task among supervised segmentation, supervised segmentation without category label, supervised classification and unsupervised reconstruction. For supervised segmentation without category label, we discard the adding of categorical vector (mlp {64}) and directly repeat the 1024 dim feature into n x 1024. We do unsupervised reconstruction following the framework in this [repo](https://github.com/AnTao97/UnsupervisedPointCloudReconstruction) and use source points from sphere surface for decoder. We also change feature dimension into 1024. Except unsupervised reconstruction, we do all experiments under the framework of DGCNN.
 
 To train the network, run
 ```
 python main.py --exp_name <exp name> --task <segment | classify | reconstruct> --dataset_root <root directory for datasets> --encoder <dgcnn_cls | dgcnn_seg> --k <20 | 40> --feat_dims 1024 --batch_size <16 | 32> --dataset shapenetpart --gpu <gpu ids>
 ```
-Use `--seg_no_label` if you want to run segmentation task unsupervisedly.
+Use `--seg_no_label` if you want to run segmentation task without category label.
 
 You can download our already trained models from [[Dropbox]](https://www.dropbox.com/sh/54pv3iki2lwytes/AAAvHVDtS7sTFj3zbnf9ta-Ja?dl=0) or [[BaiduDisk]](https://pan.baidu.com/s/1UigbY4jNts8LMZ6fqJXvxQ) and place them under `snapshot/`.
 
@@ -91,8 +91,8 @@ You can find the Tensorboard records under `tensorboard/`.
 ### Results with best settings
 | Task | Info | Encoder | K | Batch Size | Epochs | ShapeNetPart | ModelNet40 | 
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
-| Segmentation | Unsupervised | DGCNN_Seg | 40 | 32 | 250 | **99.9%** | 89.2% | 
 | Segmentation | Supervised | DGCNN_Seg | 40 | 32 | 250 | 98.9% | 89.4% | 
+| Segmentation | Supervised (no category label) | DGCNN_Seg | 40 | 32 | 250 | **99.9%** | 89.2% | 
 | Classification | Supervised | DGCNN_Cls | 40 | 32 | 250 | 99.8% | 89.6% | 
 | Reconstruction | Unsupervised | DGCNN_Cls | 20 | 16 | 250 | 98.7% | **89.8%** | 
 
@@ -106,8 +106,8 @@ You can find the Tensorboard records under `tensorboard/`.
 ### Results with settings for segmentation task  
 | Task | Info | Encoder | K | Batch Size | Epochs | ShapeNetPart | ModelNet40 | 
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
-| Segmentation | Unsupervised | DGCNN_Seg | 40 | 32 | 250 | **99.9%** | 89.2% | 
 | Segmentation | Supervised | DGCNN_Seg | 40 | 32 | 250 | 98.9% | **89.4%** | 
+| Segmentation | Supervised (no category label) | DGCNN_Seg | 40 | 32 | 250 | **99.9%** | 89.2% | 
 | Classification | Supervised | DGCNN_Seg | 40 | 32 | 250 | **99.9%** | 86.8% | 
 | Reconstruction | Unsupervised | DGCNN_Seg | 40 | 32 | 290 | 98.8% | 89.2% | 
 
@@ -121,8 +121,8 @@ You can find the Tensorboard records under `tensorboard/`.
 ### Results evaluated on ShapeNetPart Part dataset
 | Task | Info | Encoder | K | Batch Size | Epochs | Training Dataset | Eval Acc
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | 
-| Segmentation | Unsupervised | DGCNN_Seg | 40 | 32 | 250 | ShapeNetPart | 84.0% | 
 | Segmentation | Supervised | DGCNN_Seg | 40 | 32 | 250 | ShapeNetPart | 85.0% | 
+| Segmentation | Supervised (no category label) | DGCNN_Seg | 40 | 32 | 250 | ShapeNetPart | 84.0% | 
 | Classification | Supervised | DGCNN_Cls | 40 | 32 | 250 | ShapeNetPart Part | **99.0%** | 4
 | Reconstruction | Unsupervised | DGCNN_Cls | 20 | 16 | 250 | ShapeNetPart Part | 87.5% | 
 
@@ -133,5 +133,5 @@ You can find the Tensorboard records under `tensorboard/`.
 
 &nbsp;
 ## Performance analysis
-Experimental results show that learning unsupervised point cloud segmentation does help to extract features suitable for classification. However, simply adopting the training scheme from DGCNN for segmentation task is not suitable for transfer learning. We believe better results will get if using better training scheme.
+Experimental results show that learning point cloud segmentation does help to extract features suitable for classification. However, simply adopting the training scheme from DGCNN for segmentation task is not suitable for transfer learning. We believe better results will get if using better training scheme.
 
