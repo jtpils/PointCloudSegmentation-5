@@ -31,8 +31,8 @@ If you find this work useful, please cite:
 ```
 @article{tao2020,
       Author = {An Tao},
-      Title = {Unsupervised Point Cloud Segmentation for Classific Feature Learning},
-      Journal = {https://github.com/AnTao97/UnsupervisedPointCloudSegmentation},
+      Title = {Point Cloud Segmentation for Classific Feature Learning},
+      Journal = {https://github.com/AnTao97/PointCloudSegmentation},
       Year = {2020}
 }
 ```
